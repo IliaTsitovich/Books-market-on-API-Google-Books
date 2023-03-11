@@ -1,2 +1,29 @@
-$back: rgb(55, 58, 218);
-$text: rgb(21, 59, 16);
+// common and main colors;
+
+$white: #FFFFFF;
+$colorCardsOne: #9E98DC;
+$colorCardsSecond: #FF8FE6;
+$marginBetweenElements: 40px;
+
+
+// colors for text
+$ColorShadowTextPurple: #534FD2;
+$ColorShadowTextRed: #7B1010;
+$blackActiveText: #1C2A39;
+$greyText: #5C6A79;
+$colorActiveDot: #9E98DC;
+$colorBgDot: #EFEEF6;
+
+
+// Fonts
+$font1: "Montserrat";
+
+// Fonts shadows
+$PurpleShadowFirstWordInfo: 7px 4px 0px $ColorShadowTextPurple;
+$PurpleShadowSecondWordInfo: 17px 16px 0px $ColorShadowTextPurple;
+$RedShadowFirstWordInfo: 7px 4px 0px $ColorShadowTextRed;
+$RedShadowSecondWordInfo: 17px 16px 0px $ColorShadowTextRed;
+
+
+
+

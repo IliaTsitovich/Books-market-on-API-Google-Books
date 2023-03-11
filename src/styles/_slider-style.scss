@@ -1,0 +1,183 @@
+@import "var";
+
+@mixin title(
+  $fontSize,
+  $fontStyle,
+  $fontWeight,
+  $fontFamily,
+  $lineHeight,
+  $textTransorm,
+  $color,
+  $align,
+  $margin,
+  $padding
+) {
+  font-family: $fontFamily;
+  font-style: $fontStyle;
+  font-weight: $fontWeight;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  text-transform: $textTransorm;
+  color: $color;
+  text-align: $align;
+  margin: $margin;
+  padding: $padding;
+}
+
+.content {
+  position: relative;
+  max-width: 1120px;
+  margin: 0 auto;
+
+  .title__card {
+    @include title(18px, normal, 700, $font1, 22px, uppercase, $blackActiveText, null, 0, 0);
+  }
+
+  .content__miniCards {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 10;
+
+    // First mini-card
+    .content__miniCard_first {
+      background-color: $colorCardsOne;
+      width: 149px;
+      height: 204px;
+      position: absolute;
+      top: 69px;
+      right: -74px;
+      box-shadow: 0px 24px 36px rgba(53, 49, 84, 0.28);
+      .title__card {
+          position: absolute;
+          top: 102px;
+          left: 20px;
+      }
+      
+      .arrow-right {
+        position: absolute;
+        top: 172px;
+        left: 20px;
+      }
+    }
+  }
+}
+
+.main-container-block-1 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.content__main-content.image.active {
+  opacity: 1;
+}
+
+.content__main-content.image {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-size: cover; 
+  width: 100%;
+  height: 702px;
+  max-height: 702px;
+  opacity: 0;
+  transition: opacity 800ms ease;
+
+  & > h1 {
+        @include title(25px, normal, 600, $font1, 30px, uppercase,$blackActiveText,center,0,69px);
+    }
+
+    .content__main-content__slider-info_title1 {
+      display: flex;
+      flex-direction: row;
+      position: absolute;
+      top: 104px;
+      left: 308px;
+
+      .info1, .info3 {
+        & > h2, h2:last-child {
+          @include title(60px, normal, 700, $font1, 73px, lowercase, $white, null, 0, 0);
+          text-shadow: $PurpleShadowFirstWordInfo;
+        }
+      }
+      .info3 > h2:last-child {
+        margin-top: 98px;
+      }
+      .info2 > h1 {
+          @include title(182px, normal, 900, $font1, 222px, uppercase, $white, null, -10px 0, 0);
+          text-shadow: $PurpleShadowSecondWordInfo;
+          margin-top: -20px;
+      }
+    }
+
+    .content__main-content__img {
+      position: relative;
+      max-width: 1016px;
+      max-height: 452px;
+      margin-left: auto;      
+      margin-right: auto;
+      margin-top: auto;
+      margin-bottom: 21px;
+    }
+}
+
+.wrapper {
+  width: 100vw;
+  position: absolute;
+
+  .title__card {
+    @include title(18px, normal, 700, $font1, 22px, uppercase, $blackActiveText, null, 0, 0);
+  }
+
+  // Second mini-card
+  .content__miniCard_second {
+    background-color: $colorCardsSecond;
+    width: 137px;
+    height: 273px;
+    position: absolute;
+    top: 362px;
+    right: 0;
+    z-index: 11;
+    box-shadow: 0px 24px 36px rgba(53, 49, 84, 0.28);
+    .title__card {
+      position: absolute;
+      top: 149px;
+      left: 20px;
+      }
+    .arrow-right {
+      position: absolute;
+      bottom: 21px;
+      left: 20px;
+      }
+    }
+}
+
+.content__slider-dots {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  & .slider__dots-item {
+    width: 9.57px;
+    height: 9.57px;
+    background: $colorBgDot;
+    border-radius: 30px;
+    margin: 0 5px;
+    transition: background 0.4s ease;
+
+    &:hover, &.active {
+      background:$colorActiveDot;
+      cursor: pointer;
+    }
+
+  }
+
+}
+
+
+
+
+
