@@ -1,0 +1,211 @@
+@import "var";
+
+@mixin title($fontSize,$fontStyle,$fontWeight,$fontFamily,$lineHeight,$textTransorm,$color,$align,$margin,$padding)
+ {
+  font-family: $fontFamily;
+  font-style: $fontStyle;
+  font-weight: $fontWeight;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  text-transform: $textTransorm;
+  color: $color;
+  text-align: $align;
+  margin: $margin;
+  padding: $padding;
+};
+
+.content-2 {
+    display: flex;
+    margin-top: 120px;
+
+    .div-back-ground-list {
+        position: absolute;
+        left: 0;
+        width: calc(100vw - (100% - 30vw));
+        height: 710px;
+        background-color: $colorBgDot;
+        
+    }
+    .container-info {
+        position: relative;
+        margin: 45px auto;
+        width: 100%;
+        max-width: 1120px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .categories-books {
+        position: absolute;
+        left: 0;
+        width: max-content;
+        min-width: max-content;
+        height: max-content;
+
+        .categories-list {
+            width: max-content;
+        }
+        
+        & ul > li > button {
+            text-decoration: none;
+            background: none;
+            border: none;
+            @include title(12px, normal, 500, $font1, 15px, capitalize, $greyText, 0 ,0 ,0);
+            cursor: pointer;
+        }
+        
+
+        button:hover, button.activeButton {
+            @include title(16px, normal, 700, $font1, 15px, capitalize, $blackActiveText, 0 ,0 ,0);
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            & li.active, :hover{
+                list-style: disc;
+                list-style-position: outside;
+                &::marker {
+                    color: $colorMarker;
+                    width: 6px;
+                    height: 6px;
+                }
+            }
+
+            li.active::marker {
+                color: $colorMarker;
+                width: 6px;
+                height: 6px;
+            }
+
+        }
+
+        li:not(:first-child){
+            margin-top: 23px;
+        }
+    }
+
+    .output-books {
+        position: absolute;
+        right: 0;
+        width: 924px;
+        height: max-content;
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(424px, 1fr));
+        gap: 75px;
+        
+        .cardBook {
+            display: flex;
+            flex-direction: row;
+            height: max-content;
+            margin-bottom: 85px;
+            & .image-books {
+                width: 212px;
+                height: 327px;
+                box-shadow: 0px 24px 36px rgba(53, 49, 84, 0.28);
+            }
+        }
+
+        .infoBooks {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: max-content;
+            max-width: 176px;
+            margin: auto auto;
+            margin-top: 15px;
+            
+            .div-author{
+                position: relative;
+                .author {
+                    @include title(10px, normal, 400, $font2, 14px, capitalize, $greyText, 0 ,0 ,0);
+                    width: inherit;
+                    
+                }
+            }
+            
+
+            .title-books {
+                @include title(16px, normal, 700, $font1, 20px, null, $blackActiveText, 0 ,0 ,0);
+                position: relative;
+                left: 0;
+                width: 137px;
+            }
+
+            .container-stars {
+                position: relative;
+                left: 0;
+                display: flex;
+                justify-content: space-between;
+                margin-top: 5px;
+                width: 176px;
+                max-width: 176px;
+                .stars {
+                    width: max-content;
+                    margin-right: 5px;
+                }
+
+                .raiting-count {
+                    .raiting {
+                        width: max-content;
+                        @include title(10px, normal, 400, $font2, 14px, lowercase, $greyText, center ,0 ,0);
+                    }
+                }
+
+                
+            }
+
+            .descriptions {
+                margin: 16px 0;
+                display: grid;
+                grid-template-rows: 1rem 1rem 1rem;
+                position: relative;
+                left: 0;
+                width: 176px;
+                max-width: 176px;
+                
+                
+                .text-descriptions {
+                    height: max-content;
+                    overflow: hidden;
+                    word-wrap: break-word;
+                    @include title(10px, normal, 400, $font2, 14px, capitalize, $greyText, 0 ,0 ,0);
+                }
+            }
+
+            .price {
+                position: relative;
+                left: 0;
+                align-self: start;
+                .money-value {
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                    @include title(16px, normal, 700, $font1, 20px, null, $blackActiveText, start ,0 ,0);
+
+                }
+            }
+            .button {
+                position: absolute;
+                top: 250px;
+                width: max-content;
+
+                & > button {
+                    width: 176px;
+                    height: 45px;
+                    @include title(8px, normal, 700, $font1, 10px, uppercase, $colorButtonText, center ,0 ,0);
+                    background-color: $white;
+                    border: 1px solid #4C3DB2;
+
+                    &:hover {
+                        color:$greyText;
+                        border: 1px solid #EEEDF5;
+                    }
+                
+                }
+            }
+        }
+    }
+}
+

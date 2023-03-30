@@ -2,28 +2,25 @@ import "./index.html";
 
 let images = [{
     slide: "slide-1",
-    url:"./img/bg1.png",
+    url:require("./img/bg1.png"),
     title: "Black friday sale",
     info1: "up to",
     info2: "60",
     info3: "%",
-    image: "./img/people_image.png",
 },{
     slide: "slide-2",
-    url:"./img/bg2.png",
+    url:require("./img/bg2.png"),
     title: "for entrepreneurs",
     info1: "top",
     info2: "10",
     info3: "books",
-    image: null,
 },{
     slide: "slide-3",
-    url:"./img/bg3.png",
+    url:require("./img/bg3.png"),
     title: "Check out",
     info1: "our",
     info2: "cozy books",
     info3: "selections",
-    image: null,
 }];
 
 
@@ -35,8 +32,8 @@ function initSlider(options) {
         autoplay: true,
     };
 
-    let block_slide = document.querySelector(".main-container-block-1"); 
-    let sliderDots = document.querySelector(".content__slider-dots");
+    let block_slide = document.querySelector(".main-container-block"); 
+    let sliderDots = document.querySelector(".slider-dots");
     // let sliderButton = document.querySelector(".slider__arrow_button");
     // let ulConteiner = document.querySelector(".elementsA");
     
@@ -62,21 +59,21 @@ function initSlider(options) {
        
         images.forEach((image, index) => {
 
-         let imageDiv = `<div class="content__main-content image n${index} ${index===0? "active" : ""}" style="background-image:url(${images[index].url})" data-index="${index}">
-         <h1 class="content__main-content__slider-title">${images[index].title}</h1>
-         <div class="content__main-content__slider-info_title1">
+         let imageDiv = `<div class="main-content image n${index} ${index===0? "active" : ""}" style="background-image:url(${images[index].url})" data-index="${index}">
+         <h1 class="slider-title slide${index}">${images[index].title}</h1>
+         <div class="slider-info slide${index} n${index}">
               <div class="info1"><h2>${images[index].info1}</h2></div> 
               <div class="info2"><h1>${images[index].info2}</h1></div> 
               <div class="info3"><h2>${images[index].info3}</h2></div> 
             </div>
          </div>
          `
-         console.log(imageDiv)
+        //  console.log(imageDiv)
          block_slide.innerHTML += imageDiv;
         
         })
     }
-
+   
     function initArrows () {
 
         sliderArrows.querySelectorAll(".slider__arrow").forEach(arrow => {arrow.addEventListener("click", function() {
@@ -128,15 +125,14 @@ function initSlider(options) {
                 
             })
         })
-
     }
 
     function initDots() {
         images.forEach((image, index) => {
-            let dot = `<div class="slider__dots-item n${index} ${index ===0? "active": "" }" data-index="${index}"></div>`
+            let dot = `<div class="slider-dots-item n${index} ${index ===0? "active": "" }" data-index="${index}"></div>`
             sliderDots.innerHTML += dot;
         });
-        sliderDots.querySelectorAll(".slider__dots-item").forEach(dot => {
+        sliderDots.querySelectorAll(".slider-dots-item").forEach(dot => {
             dot.addEventListener("click", function(){
                 moveSlider(this.dataset.index);
                 sliderDots.querySelector(".active").classList.remove("active");
@@ -158,7 +154,7 @@ function initSlider(options) {
             ulConteiner.querySelector(".n" + num).classList.add("active_hover_A");
         }
         
-        changeInfo(num)
+        // changeInfo(num)
 
     }
    
@@ -167,35 +163,35 @@ function initSlider(options) {
         sliderImages.innerHTML += cropTitle(titleDiv, 50)
     }
 
-    function changeInfo(num) {
-        if(!images[num].city) return;
-        let infoBox = document.querySelector(".box-information")
-        let nameCity = infoBox.querySelector("#nameCity");
-            nameCity.innerHTML = "";
-            nameCity.innerHTML = `
-                <h3>CITY:</h3>
-                <span id="name-city" >${images[num].city}</span>
-            `;
-        if(!images[num].area) return;
-        let area = infoBox.querySelector("#area");
-            area.innerHTML = " ";
-            area.innerHTML = `
-                <h3>apartment area:</h3>
-                <span class="m2"> ${images[num].area} m<sup>2</sup></span>
-            `;
-        if(!images[num].time) return;
-        let time = infoBox.querySelector("#time");
-            time.innerHTML = " ";
-            time.innerHTML = `
-            <h3>Repair time:</h3>
-            <span id="repair-time">${images[num].time}</span>
-            `;
+    // function changeInfo(num) {
+        
+    //     let infoBox = document.querySelector(".box-information")
+    //     let nameCity = infoBox.querySelector("#nameCity");
+    //         nameCity.innerHTML = "";
+    //         nameCity.innerHTML = `
+    //             <h3>CITY:</h3>
+    //             <span id="name-city" >${images[num].city}</span>
+    //         `;
+    //     if(!images[num].area) return;
+    //     let area = infoBox.querySelector("#area");
+    //         area.innerHTML = " ";
+    //         area.innerHTML = `
+    //             <h3>apartment area:</h3>
+    //             <span class="m2"> ${images[num].area} m<sup>2</sup></span>
+    //         `;
+    //     if(!images[num].time) return;
+    //     let time = infoBox.querySelector("#time");
+    //         time.innerHTML = " ";
+    //         time.innerHTML = `
+    //         <h3>Repair time:</h3>
+    //         <span id="repair-time">${images[num].time}</span>
+    //         `;
 
-    }  
+    // }  
     
     function initAutoplay() {
         setInterval (()=> {
-            let curNumber = +sliderImages.querySelector(".active").dataset.index;
+            let curNumber = +block_slide.querySelector(".active").dataset.index;
             let nextNumber = curNumber === images.length - 1? 0 : curNumber + 1;
             moveSlider(nextNumber);
         }, options.autoplayInterval)
@@ -206,8 +202,8 @@ let sliderOptions = {
     title: false,
     info: true,
     dots: true,
-    autoplay: false,
-    autoplayInterval:false,
+    autoplay: true,
+    autoplayInterval:2500,
     navigate: false,
 };
 

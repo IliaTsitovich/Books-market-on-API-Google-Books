@@ -24,7 +24,7 @@
   padding: $padding;
 }
 
-.content {
+.content-1 {
   position: relative;
   max-width: 1120px;
   margin: 0 auto;
@@ -33,14 +33,14 @@
     @include title(18px, normal, 700, $font1, 22px, uppercase, $blackActiveText, null, 0, 0);
   }
 
-  .content__miniCards {
+  .miniCards {
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: 10;
 
     // First mini-card
-    .content__miniCard_first {
+    .miniCard-first {
       background-color: $colorCardsOne;
       width: 149px;
       height: 204px;
@@ -48,7 +48,13 @@
       top: 69px;
       right: -74px;
       box-shadow: 0px 24px 36px rgba(53, 49, 84, 0.28);
+      &:hover {
+        cursor: pointer;
+        scale: 1.1;
+      }
+
       .title__card {
+          text-decoration: none;
           position: absolute;
           top: 102px;
           left: 20px;
@@ -61,65 +67,179 @@
       }
     }
   }
-}
 
-.main-container-block-1 {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.content__main-content.image.active {
-  opacity: 1;
-}
-
-.content__main-content.image {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  background-size: cover; 
-  width: 100%;
-  height: 702px;
-  max-height: 702px;
-  opacity: 0;
-  transition: opacity 800ms ease;
-
-  & > h1 {
-        @include title(25px, normal, 600, $font1, 30px, uppercase,$blackActiveText,center,0,69px);
+  .main-container-block {
+    width: 100%;
+    height: 702px;
+    position: relative;
+  
+    // styles for slide #1
+    .main-content.image.n0 {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      background-size: cover; 
+      width: 100%;
+      height: 702px;
+      max-height: 702px;
+      opacity: 0;
+      transition: opacity 800ms ease;
+  
+      &.active {
+        opacity: 1;
+      }
+    
+      & .slider-title.slide0 {
+            @include title(25px, normal, 600, $font1, 30px, uppercase,$blackActiveText,center,0,69px);
+        }
+    
+        .slider-info.slide0 {
+          display: flex;
+          flex-direction: row;
+          position: absolute;
+          top: 104px;
+          left: 308px;
+    
+          .info1, .info3 {
+            & > h2, h2:last-child {
+              @include title(60px, normal, 700, $font1, 73px, lowercase, $white, null, 0, 0);
+              text-shadow: $PurpleShadowFirstWordInfo;
+            }
+          }
+          .info3 > h2:last-child {
+            margin-top: 98px;
+          }
+          .info2 > h1 {
+              @include title(182px, normal, 900, $font1, 222px, uppercase, $white, null, -10px 0, 0);
+              text-shadow: $PurpleShadowSecondWordInfo;
+              margin-top: -20px;
+          }
+        }
     }
-
-    .content__main-content__slider-info_title1 {
+    //  styles for slide #2
+    .main-content.image.n1 {
+      position: absolute;
       display: flex;
       flex-direction: row;
-      position: absolute;
-      top: 104px;
-      left: 308px;
-
-      .info1, .info3 {
-        & > h2, h2:last-child {
-          @include title(60px, normal, 700, $font1, 73px, lowercase, $white, null, 0, 0);
-          text-shadow: $PurpleShadowFirstWordInfo;
+      background-size: cover; 
+      width: 100%;
+      height: 702px;
+      max-height: 702px;
+      opacity: 0;
+      transition: opacity 800ms ease;
+  
+      &.active {
+        opacity: 1;
+      }
+    
+      & .slider-title.slide1 {
+        position: absolute;
+        z-index: 11;
+        top: 250px;
+        left: 730px;
+  
+            @include title(25px, normal, 600, $font1, 30px, uppercase,$blackActiveText,center,0,0);
         }
-      }
-      .info3 > h2:last-child {
-        margin-top: 98px;
-      }
-      .info2 > h1 {
-          @include title(182px, normal, 900, $font1, 222px, uppercase, $white, null, -10px 0, 0);
-          text-shadow: $PurpleShadowSecondWordInfo;
-          margin-top: -20px;
-      }
+    
+        .slider-info.slide1 {
+          display: flex;
+          position: absolute;
+          z-index: 11;
+          top: 73px;
+          left: 103px;
+    
+          .info1 {
+            & h2 { @include title(60px, normal, 700, $font1, 73px, lowercase, $white, null, 0, 0);
+              text-shadow: $PurpleShadowFirstWordInfo;
+            }
+          } 
+          .info3 {
+            position: absolute;
+            top: 45px;
+            left: 196px;
+            & > h2 {
+              @include title(50px, normal, 700, $font1, 73px, lowercase, $white, null, 0, 0);
+              text-shadow: $PurpleShadowFirstWordInfo;
+            }
+  
+            &> h2:last-child {
+              margin-top: 98px;
+            }
+          }
+          
+          .info2 {
+            position: absolute;
+            top: 20px;
+  
+            & > h1 {
+              @include title(160px, normal, 900, $font1, 222px, uppercase, $white, null, 0, 0);
+              text-shadow: $PurpleShadowSecondWordInfo;
+          }
+          }
+        }
     }
+    // styles for slide #3
+    .main-content.image.n2 {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+  
+      background-size: cover; 
+      width: 100%;
+      height: 702px;
+      max-height: 702px;
+      opacity: 0;
+      transition: opacity 800ms ease;
+  
+      &.active {
+        opacity: 1;
+      }
+    
+      .slider-title.slide2 {
+        position: relative;
+        z-index: 11;
+            @include title(45px, normal, 600, $font1, 55px, uppercase,$blackActiveText,center,148px auto 0 auto,0);
+      }
+      
+    
+        .slider-info.slide2 {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 212px;
+          left: 233px;
+    
+          .info1, .info2, .info3 {
+            &  h1, h2 {
+              @include title(90px, normal, 900, $font1, 110px, uppercase, $white, center, 0, 0);
+              text-shadow: $RedShadowFirstWordInfo;
+            }
+          }
+        }
+    }
+  }
 
-    .content__main-content__img {
-      position: relative;
-      max-width: 1016px;
-      max-height: 452px;
-      margin-left: auto;      
-      margin-right: auto;
-      margin-top: auto;
-      margin-bottom: 21px;
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    margin-top: 17px;
+  
+    & .slider-dots-item {
+      width: 9.57px;
+      height: 9.57px;
+      background: $colorBgDot;
+      border-radius: 30px;
+      margin: 0 5px;
+      transition: background 0.4s ease;
+  
+      &:hover, &.active {
+        background:$colorActiveDot;
+        cursor: pointer;
+      }
     }
+  }
 }
 
 .wrapper {
@@ -131,7 +251,7 @@
   }
 
   // Second mini-card
-  .content__miniCard_second {
+  .miniCard_second {
     background-color: $colorCardsSecond;
     width: 137px;
     height: 273px;
@@ -140,7 +260,12 @@
     right: 0;
     z-index: 11;
     box-shadow: 0px 24px 36px rgba(53, 49, 84, 0.28);
+    &:hover {
+      cursor: pointer;
+      scale: 1.1;
+    }
     .title__card {
+      text-decoration: none;
       position: absolute;
       top: 149px;
       left: 20px;
@@ -153,29 +278,7 @@
     }
 }
 
-.content__slider-dots {
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
 
-  & .slider__dots-item {
-    width: 9.57px;
-    height: 9.57px;
-    background: $colorBgDot;
-    border-radius: 30px;
-    margin: 0 5px;
-    transition: background 0.4s ease;
-
-    &:hover, &.active {
-      background:$colorActiveDot;
-      cursor: pointer;
-    }
-
-  }
-
-}
 
 
 
