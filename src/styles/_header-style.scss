@@ -60,9 +60,28 @@
   }
 
   .icon-navbar {
-    display: block;
+    position: relative;
+    display: flex;
     margin: 53px 0 46px 0;
     & .icon-navbar__icon-img {
+
+      .shop-bag{
+        @include font(10px, normal, 500, $font2, 12px, capitalize, $white);
+        width: 13px;
+        height: 13px;
+        position: relative;
+        top: -21px;
+        left: 2px;
+        z-index: 8;
+        text-align: center;
+        background-color: $itemsBagColor;
+        border-radius: 50%;
+        display: none;
+        &.active {
+          display: block;
+        }
+    }
+
       &:not(:last-child) {
         margin-right: $marginBetweenElements;
       }
@@ -71,5 +90,6 @@
         scale: 1.1;
       }
     }
+    
   }
 }

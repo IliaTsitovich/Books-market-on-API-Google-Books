@@ -17,6 +17,7 @@
 .content-2 {
     display: flex;
     margin-top: 120px;
+    max-width: 100%;
 
     .div-back-ground-list {
         position: absolute;
@@ -33,6 +34,8 @@
         max-width: 1120px;
         display: flex;
         justify-content: space-between;
+        
+        
     }
     .categories-books {
         position: absolute;
@@ -45,7 +48,7 @@
             width: max-content;
         }
         
-        & ul > li > button {
+        & ul > li {
             text-decoration: none;
             background: none;
             border: none;
@@ -54,7 +57,7 @@
         }
         
 
-        button:hover, button.activeButton {
+        li:hover, li.active {
             @include title(16px, normal, 700, $font1, 15px, capitalize, $blackActiveText, 0 ,0 ,0);
         }
 
@@ -86,7 +89,33 @@
         }
     }
 
-    .output-books {
+    .load {
+        position: absolute;
+        margin: 1245px auto;
+        padding-bottom: 91px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        width: inherit;
+        & > button {
+            width: 176px;
+            height: 45px;
+            @include title(8px, normal, 700, $font1, 10px, uppercase, $colorButtonText, center ,0 ,0);
+            background-color: $white;
+            border: 1px solid #4C3DB2;
+
+            &:hover {
+                color:$greyText;
+                border: 1px solid #EEEDF5;
+            }
+            &:active {
+                scale: 1.05;
+                border: 2px solid #4C3DB2;
+            }
+        }
+    }
+
+    .output-books{
         position: absolute;
         right: 0;
         width: 924px;
@@ -94,12 +123,13 @@
         display: grid;
         grid-template-columns: repeat(auto-fit,minmax(424px, 1fr));
         gap: 75px;
+
         
         .cardBook {
             display: flex;
             flex-direction: row;
             height: max-content;
-            margin-bottom: 85px;
+            margin-bottom: 10px;
             & .image-books {
                 width: 212px;
                 height: 327px;
@@ -124,7 +154,6 @@
                     
                 }
             }
-            
 
             .title-books {
                 @include title(16px, normal, 700, $font1, 20px, null, $blackActiveText, 0 ,0 ,0);
@@ -152,8 +181,6 @@
                         @include title(10px, normal, 400, $font2, 14px, lowercase, $greyText, center ,0 ,0);
                     }
                 }
-
-                
             }
 
             .descriptions {
@@ -164,7 +191,6 @@
                 left: 0;
                 width: 176px;
                 max-width: 176px;
-                
                 
                 .text-descriptions {
                     height: max-content;
@@ -183,9 +209,9 @@
                     top: 0;
                     left: 0;
                     @include title(16px, normal, 700, $font1, 20px, null, $blackActiveText, start ,0 ,0);
-
                 }
             }
+
             .button {
                 position: absolute;
                 top: 250px;
@@ -202,10 +228,14 @@
                         color:$greyText;
                         border: 1px solid #EEEDF5;
                     }
-                
+                    &.active {
+                        color:$greyText;
+                        border: 1px solid #EEEDF5;
+                    }
                 }
             }
         }
+        
     }
 }
 

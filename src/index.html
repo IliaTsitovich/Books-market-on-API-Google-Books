@@ -19,21 +19,26 @@
           <a class="nav__item-link" href="#">blog</a>
         </div>
         <div class="icon-navbar">
-          <img
+          <div class="icon-navbar__icon-img">
+            <img
             class="icon-navbar__icon-img"
             src="./img/icon-user.png"
             alt="icon-user"
           />
-          <img
+          </div>
+          <div class="icon-navbar__icon-img">
+            <img
             class="icon-navbar__icon-img"
             src="./img/icon-search.png"
             alt="icon-search"
           />
-          <img
-            class="icon-navbar__icon-img"
+          </div>
+          <div class="icon-navbar__icon-img">
+            <img class="icon-navbar__icon-img icon-shop-bag"
             src="./img/icon-shop bag.png"
-            alt="icon-shop"
-          />
+            alt="icon-shop"/>
+          <p class="shop-bag bags-items">0</p>
+          </div>
         </div>
       </nav>
     </header>
@@ -66,45 +71,31 @@
         <div class="container-info">
           <!--Category books start-->
           <div class="categories-books">
-            <ul class="categories-list"></ul>
+            <ul class="categories-list">
+              <li class="menu-item active n0" data-index="0" data-name="subject:Art">Art &amp; Fashion</li>
+              <li class="menu-item n1" data-index="1" data-name="subject:Architecture">Architecture</li>
+              <li class="menu-item n2" data-index="2" data-name="subject:Biography &amp; Autobiography">Biography</li>
+              <li class="menu-item n3" data-index="3" data-name="subject:Business">Business</li>
+              <li class="menu-item n4" data-index="4" data-name="subject:Crafts &amp; Hobbies">Crafts &amp; Hobbies</li>
+              <li class="menu-item n5" data-index="5" data-name="subject:Drama">Drama</li>
+              <li class="menu-item n6" data-index="6" data-name="subject:Fiction">Fiction</li>
+              <li class="menu-item n7" data-index="7" data-name="subject:Cooking">Food &amp; Drink</li>
+              <li class="menu-item n8" data-index="8" data-name="subject:Health &amp; Fitness">Health &amp; Wellbeing</li>
+              <li class="menu-item n9" data-index="9" data-name="subject:History">History &amp; Politics</li>
+              <li class="menu-item n10" data-index="10" data-name="subject:Humor">Humor</li>
+              <li class="menu-item n11" data-index="11" data-name="subject:Poetry">Poetry</li>
+              <li class="menu-item n12" data-index="12" data-name="subject:Psychology">Psychology</li>
+              <li class="menu-item n13" data-index="13" data-name="subject:Science">Science</li>
+              <li class="menu-item n14" data-index="14" data-name="subject:Technology">Technology</li>
+              <li class="menu-item n15" data-index="15" data-name="subject:Travel">Travel &amp; Maps</li>
+            </ul>
           </div>
           <!--Category books end-->
+
           <!--Books gallery start-->
-          <div class="output-books">
-            <!--<div class="cardBook">
-              <div class="containerImageBook">
-                <img class="image-books" src="./img/image-book-1.png" alt="image-books">
-              </div>
-              <div class="infoBooks">
-                <div class="div-author">
-                  <h2 class="author">Kelvin Kwan</h2>
-                </div>
-                <div class="div-title">
-                  <p class="title-books">Crazy rich asians</p>
-                </div>
-                <div class="container-stars">
-                  <div class="stars">
-                  </div>
-                  <div class="raiting-count">
-                    <p class="raiting">252 review</p>
-                  </div>
-                </div>
-                <div class="descriptions">
-                  <p class="text-descriptions"></p>
-                </div>
-                <div class="price">
-                  <p class="money-value">$4,99</p>
-                </div>
-                <div class="button">
-                  <button class="buy-now">buy now</button>
-                </div>
-              </div>
-            </div>-->
-            
-          </div>
+          <div class="output-books"></div>
           <!--Books gallery end-->
         </div>
-       
       </div>
       <footer></footer>
     </main>

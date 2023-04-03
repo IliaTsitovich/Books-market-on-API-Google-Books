@@ -1,121 +1,89 @@
-let categories = [{
-    name: 'Art & Fashion',
-    value: 'subject:Art',
-},{
-    name: 'Architecture',
-    value: 'subject:Architecture',
-},{
-    name: 'Biography',
-    value: 'subject:Biography & Autobiography',
-},{
-    name:  'Business',
-    value: 'subject:Business',
-},{
-    name:  'Crafts & Hobbies',
-    value: 'subject:Crafts & Hobbies',
-},{
-    name: 'Drama',
-    value: 'subject:Drama',
-},{
-    name:  'Fiction',
-    value: 'subject:Fiction',
-},{
-    name:  'Food & Drink',
-    value: 'subject:Cooking',
-},{
-    name: 'Health & Wellbeing',
-    value: 'subject:Health & Fitness',
-},{
-    name: 'History & Politics',
-    value: 'subject:History',
-},{
-    name: 'Humor',
-    value: 'subject:Humor',
-},{
-    name:  'Poetry',
-    value: 'subject:Poetry',
-},{
-    name:  'Psychology',
-    value: 'subject:Psychology',
-},{
-    name: 'Science',
-    value: 'subject:Science',
-},{
-    name:  'Technology',
-    value: 'subject:Technology',
-},{
-    name:  'Travel & Maps',
-    value: 'subject:Travel',
-}];
-
+// create array for generate maturityRating
 let averages = [`<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="#F2C94C">
 <path d="M31.547 12a.848.848 0 00-.677-.577l-9.427-1.376-4.224-8.532a.847.847 0 00-1.516 0l-4.218 8.534-9.427 1.355a.847.847 0 00-.467 1.467l6.823 6.664-1.612 9.375a.847.847 0 001.23.893l8.428-4.434 8.432 4.432a.847.847 0 001.229-.894l-1.615-9.373 6.822-6.665a.845.845 0 00.214-.869z" />
-</svg>`]
+</svg>`];
 
+let categoryActive;
+let startIndex = 0;
+
+let localCart = {};
 
 const output = document.querySelector(".output-books");
 const divCategoriesBooksList = document.querySelector(".categories-list");
-const divCategoriesBooks = document.querySelector("categories-books");
-const key = 'AIzaSyDca-QdQzla2Kdq3KbAtFLtKwUEmKC9BpQ';
-const urlDefault = new URL(`https://www.googleapis.com/books/v1/volumes?q="subject:Art"&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
+const key = 'AIzaSyDmkxWqx4frhzmp0LmcAXduhWusNo2XKC4';
+const urlDefault = new URL(`https://www.googleapis.com/books/v1/volumes?q="subject:Art & Fashion"&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
 const url = new URL(`https://www.googleapis.com/books/v1/volumes?q="subject:Health & Fitness"&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
-const placeHolderImageBooks = '';
-
-
-function initCategory() {
-
-    categories.forEach((items,index) => {
-        let elCategories = `
-        <li class="${index ===0? "active" : " " } n${index}" data-index="${index}"><button data-index="${index}" class='categories-list_item button-item ${index ===0? "activeButton" : " "} nb${index}' type="submit" value="${categories[index].value}">${categories[index].name}</a>
-        `
-        divCategoriesBooksList.innerHTML += elCategories;
-    
-    })
+const placeHolderImageBooks = {
+   url:require("./img/image-book-placeholder.png"),
 };
 
+// init search category books
+divCategoriesBooksList.querySelectorAll(".menu-item").forEach(item => {
+
+item.addEventListener("click", async function(e){
+    output.innerHTML = "";
+    moveActiveCategory(item.dataset.index);       
+    categoryActive = e.target.dataset.name;
+    startIndex = 0;
+    console.log("target" + " " + categoryActive)
+    console.log('active category is ' + categoryActive);
+    await fetchRequest(categoryActive,startIndex);
+    });
+});
+
+// init move active style category list
 function moveActiveCategory(num) {
     divCategoriesBooksList.querySelector('.active').classList.remove('active');
-    divCategoriesBooksList.querySelector('.activeButton').classList.remove('activeButton');
     divCategoriesBooksList.querySelector('.n' + num).classList.add('active');
-    divCategoriesBooksList.querySelector('.nb' + num).classList.add('activeButton');
-}
-
-function initMoveActiveCategory () {
-    let buttons = [...divCategoriesBooksList.querySelectorAll('button')].forEach(item => { 
-        item.addEventListener('click', () => {
-        moveActiveCategory(item.dataset.index);       
-    })
-});
 };
 
-function getBooks () {
-    let buttons = [...divCategoriesBooksList.querySelectorAll('button')].forEach(item => { 
-        item.addEventListener('click', async function() {
-            output.innerHTML = " ";
-            let count = 0;
-            url.searchParams.set("q", item.value);
-            url.searchParams.set("startIndex", count);
-            let response = await fetch(url)
-            .then(response => response.json())
-            console.log(response.items);
-
-            let books = response.items;
-            books.forEach(item => {
-                showBooksGallery(item)
-            });
-
-        })
-    })
-};
-
-function showBooksGallery(item) {
+// init first - default fetch .. and first fetch after reset page
+async function defaultFetch(urlDefault){
     
-    let stringAuthors = `${item.volumeInfo.authors !== undefined? item.volumeInfo.authors.join(", ") : ' '}`;
-    let description = `${item.volumeInfo.description !== undefined? item.volumeInfo.description.slice(0,95) + "..." : " "}`; 
-    let cardBookDiv = `
-    <div class="cardBook">
+    categoryActive = 'subject:Art';
+    console.log('default category if ' +  categoryActive + ' and start Index is ' + startIndex );
+    let responseDefault = await fetch(urlDefault)
+            .then(response => response.json());
+    showBooksGallery(responseDefault);
+};
+// init functions fetch API 
+async function fetchRequest(value, index) {
+    const url = new URL(`https://www.googleapis.com/books/v1/volumes?q=&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
+        url.searchParams.set("q", value);
+        url.searchParams.set("startIndex", index);
+    const responce = await fetch(url);
+    const data = await responce.json();        
+    console.log(data.items);
+    showBooksGallery(data);
+};
+
+// init function for button - "load more"
+async function loadMore(value, index) {
+    index = startIndex +=6;
+
+    await fetchRequest(value, index);
+};
+
+//  init function for parsing responce API
+function showBooksGallery(data) {
+    
+    const dataStorage = getDataFromLocalStorage();
+    console.log(dataStorage);
+
+    data.items.forEach(item => {
+
+        let stringAuthors = `${item.volumeInfo.authors !== undefined? item.volumeInfo.authors.join(", ") : ' '}`;
+        let description = `${item.volumeInfo.description !== undefined? item.volumeInfo.description.slice(0,95) + "..." : " "}`; 
+        // init div for one books
+        let card = document.createElement("div");
+        // add class for card 
+        card.classList.add('cardBook');
+        // generate books 
+        
+        if(dataStorage) {
+        card.innerHTML = `
         <div class="containerImageBook">
-            <img class="image-books" src="${item.volumeInfo.imageLinks.thumbnail !== undefined? item.volumeInfo.imageLinks.thumbnail : placeHolderImageBooks}" alt="image-books">
+            <img class="image-books" src="${item.volumeInfo.imageLinks !== undefined? item.volumeInfo.imageLinks.thumbnail : placeHolderImageBooks.url}" alt="image-books">
         </div>
         <div class="infoBooks">
             <div class="div-author">
@@ -127,14 +95,16 @@ function showBooksGallery(item) {
             ${
                 item.volumeInfo.averageRating === undefined || item.volumeInfo.ratingCount === undefined? 
                 "" :
-                `<div class="container-stars">
+                `
+                <div class="container-stars">
                 <div class="stars">
                     ${averages.join('').repeat(item.volumeInfo.averageRating)}
                 </div>
                 <div class="raiting-count">
                     <p class="raiting">${item.volumeInfo.ratingCount} review</p>
                 </div>
-            </div>`
+                </div>
+                `
             }
             <div class="descriptions">
                 <p class="text-descriptions">${description}</p>
@@ -143,27 +113,134 @@ function showBooksGallery(item) {
                 <p class="money-value">${item.saleInfo.retailPrice !== undefined? item.saleInfo.retailPrice.currencyCode + " " + item.saleInfo.retailPrice.amount : ""}</p>
             </div>
             <div class="button">
-                  <button class="buy-now">buy now</button>
+                  <button class="buy-now ${(dataStorage[item.id] || localCart[item.id])? 'active' : ''}" data-id="${item.id}">${(dataStorage[item.id] || localCart[item.id])? 'in the cart' : 'buy now'}</button>
             </div>
-        </div>
         `;
+        } else {
+            card.innerHTML = `
+        <div class="containerImageBook">
+            <img class="image-books" src="${item.volumeInfo.imageLinks !== undefined? item.volumeInfo.imageLinks.thumbnail : placeHolderImageBooks.url}" alt="image-books">
+        </div>
+        <div class="infoBooks">
+            <div class="div-author">
+                <h2 class="author">${stringAuthors}</h2>
+            </div>
+            <div class="div-title">
+                <p class="title-books">${item.volumeInfo.title}</p>
+            </div>
+            ${
+                item.volumeInfo.averageRating === undefined || item.volumeInfo.ratingCount === undefined? 
+                "" :
+                `
+                <div class="container-stars">
+                <div class="stars">
+                    ${averages.join('').repeat(item.volumeInfo.averageRating)}
+                </div>
+                <div class="raiting-count">
+                    <p class="raiting">${item.volumeInfo.ratingCount} review</p>
+                </div>
+                </div>
+                `
+            }
+            <div class="descriptions">
+                <p class="text-descriptions">${description}</p>
+            </div>
+            <div class="price">
+                <p class="money-value">${item.saleInfo.retailPrice !== undefined? item.saleInfo.retailPrice.currencyCode + " " + item.saleInfo.retailPrice.amount : ""}</p>
+            </div>
+            <div class="button">
+                  <button class="buy-now" data-id="${item.id}">buy now</button>
+            </div>
+        `;
+    };
     
+    // add generated books in card;
+    // add all books
     
-        
-       
+    output.appendChild(card);
+    createButtonLoadMore();
+    })
 
-        
-        
-        
-    
-   output.innerHTML += cardBookDiv;
+    const button = document.querySelectorAll('.buy-now');
+    button.forEach(item => {
+        item.addEventListener('click', (e)=>{
+            let currentButton = e.target;
+            let currentDataId = e.target.dataset.id;
+            click(currentButton, currentDataId);
+        })
+    });
 };
 
+function addItemShopBag(bookId, localCart) {
+    localCart[bookId] = true;
+    localStorage.setItem('localCart', JSON.stringify(localCart));
+};
+function deleteItemShopBag(bookId, localCart) {
+    delete localCart[bookId];
+}
+
+function getDataFromLocalStorage () {
+    const resp = localStorage.getItem('localCart');
+    const data = JSON.parse(resp);
+    return data;
+}
+
+function click(item, id) {
+    let currentId = id;
+
+    if(localCart[currentId] == undefined) {
+        addItemShopBag(currentId, localCart);
+        console.log('local Cart Added items and Cart is : ' + localCart)
+        item.textContent = "in the cart";
+        item.classList.add('active');
+    } else {
+        deleteItemShopBag(currentId, localCart);
+        console.log('local Cart delete items and Cart is : ' + localCart)
+        item.textContent = "buy now";
+        item.classList.remove('active');
+    }
+}
+// const shopBags = document.querySelector('.bags-items');
+
+// function loadLocalStorage(bag){
+    
+//     bag = document.querySelector('.bags-items');
+//     let item = localStorage.getItem('itemsBags') || 0;
+//     let bags = localStorage.getItem('bags');
+//     console.log('item:' + ' ' + item)
+//     if(item > 0){
+//         shopBags.classList.add('active');
+//         shopBags.textContent = item;
+//     }else {
+//         shopBags.classList.remove('active');
+//     }
+//     console.log('loaded of elements books of localStorage is:' + bags);
+    
+//     console.log('loaded of numbers books of localStorage is:' + item);
+//     shopBags.textContent = item;
+// }
+
+// create button - load more
+async function createButtonLoadMore(){
+    let divMoreButton = document.createElement("div");
+    divMoreButton.classList.add('load');
+    let buttonMoreLoad = document.createElement('button');
+    buttonMoreLoad.classList.add('load-more');
+    buttonMoreLoad.innerHTML = 'load more';
+    divMoreButton.appendChild(buttonMoreLoad);
+    
+    output.appendChild(divMoreButton);
+    
+    // add event for button
+    divMoreButton.addEventListener('click', ()=> {
+        output.innerHTML = "";
+        loadMore(categoryActive,startIndex)
+        console.log('active category:' + categoryActive , 'startIndex:' + startIndex);
+    });
+};
 
 document.addEventListener('DOMContentLoaded', function() {
-    initCategory();
-    initMoveActiveCategory();
-    getBooks();
+    defaultFetch(urlDefault);
 });
 
 
