@@ -6,7 +6,10 @@ let averages = [`<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" 
 let categoryActive;
 let startIndex = 0;
 
-let localCart = {};
+let localCart = getDataFromLocalStorage() || {};
+
+const len = Object.keys(localCart).length;
+console.log('длина ' + len);
 
 const output = document.querySelector(".output-books");
 const divCategoriesBooksList = document.querySelector(".categories-list");
@@ -17,6 +20,7 @@ const placeHolderImageBooks = {
    url:require("./img/image-book-placeholder.png"),
 };
 
+// const local = getDataFromLocalStorage();
 // init search category books
 divCategoriesBooksList.querySelectorAll(".menu-item").forEach(item => {
 
@@ -27,7 +31,7 @@ item.addEventListener("click", async function(e){
     startIndex = 0;
     console.log("target" + " " + categoryActive)
     console.log('active category is ' + categoryActive);
-    await fetchRequest(categoryActive,startIndex);
+    await fetchRequest(categoryActive,startIndex,localCart);
     });
 });
 
@@ -39,39 +43,42 @@ function moveActiveCategory(num) {
 
 // init first - default fetch .. and first fetch after reset page
 async function defaultFetch(urlDefault){
-    
+    const local = getDataFromLocalStorage();
     categoryActive = 'subject:Art';
     console.log('default category if ' +  categoryActive + ' and start Index is ' + startIndex );
     let responseDefault = await fetch(urlDefault)
             .then(response => response.json());
-    showBooksGallery(responseDefault);
+            
+    showBooksGallery(responseDefault, local);
+    loadLocalStorage(len);
 };
 // init functions fetch API 
-async function fetchRequest(value, index) {
+async function fetchRequest(value, index, local) {
     const url = new URL(`https://www.googleapis.com/books/v1/volumes?q=&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
         url.searchParams.set("q", value);
         url.searchParams.set("startIndex", index);
     const responce = await fetch(url);
     const data = await responce.json();        
     console.log(data.items);
-    showBooksGallery(data);
+    // const local = getDataFromLocalStorage();
+    showBooksGallery(data, local);
+    // loadLocalStorage(length);
 };
 
 // init function for button - "load more"
 async function loadMore(value, index) {
     index = startIndex +=6;
-
     await fetchRequest(value, index);
 };
 
+// получаем данные из localStorage
 //  init function for parsing responce API
-function showBooksGallery(data) {
+function showBooksGallery(data, local) {
     
-    const dataStorage = getDataFromLocalStorage();
-    console.log(dataStorage);
-
+    // const dataStorage = getDataFromLocalStorage();
+    
     data.items.forEach(item => {
-
+        
         let stringAuthors = `${item.volumeInfo.authors !== undefined? item.volumeInfo.authors.join(", ") : ' '}`;
         let description = `${item.volumeInfo.description !== undefined? item.volumeInfo.description.slice(0,95) + "..." : " "}`; 
         // init div for one books
@@ -79,8 +86,8 @@ function showBooksGallery(data) {
         // add class for card 
         card.classList.add('cardBook');
         // generate books 
-        
-        if(dataStorage) {
+        if(local) {
+            console.log('data storage is ' + JSON.stringify(local))
         card.innerHTML = `
         <div class="containerImageBook">
             <img class="image-books" src="${item.volumeInfo.imageLinks !== undefined? item.volumeInfo.imageLinks.thumbnail : placeHolderImageBooks.url}" alt="image-books">
@@ -92,10 +99,7 @@ function showBooksGallery(data) {
             <div class="div-title">
                 <p class="title-books">${item.volumeInfo.title}</p>
             </div>
-            ${
-                item.volumeInfo.averageRating === undefined || item.volumeInfo.ratingCount === undefined? 
-                "" :
-                `
+            ${item.volumeInfo.averageRating === undefined? " " : `
                 <div class="container-stars">
                 <div class="stars">
                     ${averages.join('').repeat(item.volumeInfo.averageRating)}
@@ -113,7 +117,7 @@ function showBooksGallery(data) {
                 <p class="money-value">${item.saleInfo.retailPrice !== undefined? item.saleInfo.retailPrice.currencyCode + " " + item.saleInfo.retailPrice.amount : ""}</p>
             </div>
             <div class="button">
-                  <button class="buy-now ${(dataStorage[item.id] || localCart[item.id])? 'active' : ''}" data-id="${item.id}">${(dataStorage[item.id] || localCart[item.id])? 'in the cart' : 'buy now'}</button>
+                  <button class="buy-now ${(local[item.id] || localCart[item.id])? 'active' : ''}" data-id="${item.id}">${(local[item.id] || localCart[item.id])? 'in the cart' : 'buy now'}</button>
             </div>
         `;
         } else {
@@ -129,7 +133,7 @@ function showBooksGallery(data) {
                 <p class="title-books">${item.volumeInfo.title}</p>
             </div>
             ${
-                item.volumeInfo.averageRating === undefined || item.volumeInfo.ratingCount === undefined? 
+                (item.volumeInfo.averageRating === undefined || item.volumeInfo.ratingCount === undefined)? 
                 "" :
                 `
                 <div class="container-stars">
@@ -166,6 +170,7 @@ function showBooksGallery(data) {
         item.addEventListener('click', (e)=>{
             let currentButton = e.target;
             let currentDataId = e.target.dataset.id;
+            console.log('current id button is ' + currentDataId);
             click(currentButton, currentDataId);
         })
     });
@@ -173,52 +178,50 @@ function showBooksGallery(data) {
 
 function addItemShopBag(bookId, localCart) {
     localCart[bookId] = true;
-    localStorage.setItem('localCart', JSON.stringify(localCart));
+    return localCart;
 };
 function deleteItemShopBag(bookId, localCart) {
     delete localCart[bookId];
-}
+    return localCart;
+};   
 
 function getDataFromLocalStorage () {
     const resp = localStorage.getItem('localCart');
+    console.log('responce from local is' + resp)
     const data = JSON.parse(resp);
     return data;
-}
+};
 
 function click(item, id) {
-    let currentId = id;
-
-    if(localCart[currentId] == undefined) {
-        addItemShopBag(currentId, localCart);
-        console.log('local Cart Added items and Cart is : ' + localCart)
+    
+    if(localCart[id] === undefined) {
+        addItemShopBag(id, localCart);
+        console.log('local Cart Added items and Cart is : ' + id)
         item.textContent = "in the cart";
         item.classList.add('active');
     } else {
-        deleteItemShopBag(currentId, localCart);
-        console.log('local Cart delete items and Cart is : ' + localCart)
+        deleteItemShopBag(id, localCart);
+        console.log('local Cart delete items and Cart is : ' + id)
         item.textContent = "buy now";
         item.classList.remove('active');
     }
+    localStorage.setItem(`localCart`, JSON.stringify(localCart));
+    const len = Object.keys(localCart).length;
+    loadLocalStorage(len)
+    console.log('loaded of elements books of localStorage is:' + len);
 }
-// const shopBags = document.querySelector('.bags-items');
 
-// function loadLocalStorage(bag){
+function loadLocalStorage(item){
+    const shopBags = document.querySelector('.bags-items');
     
-//     bag = document.querySelector('.bags-items');
-//     let item = localStorage.getItem('itemsBags') || 0;
-//     let bags = localStorage.getItem('bags');
-//     console.log('item:' + ' ' + item)
-//     if(item > 0){
-//         shopBags.classList.add('active');
-//         shopBags.textContent = item;
-//     }else {
-//         shopBags.classList.remove('active');
-//     }
-//     console.log('loaded of elements books of localStorage is:' + bags);
-    
-//     console.log('loaded of numbers books of localStorage is:' + item);
-//     shopBags.textContent = item;
-// }
+    if(item === 0) {
+        shopBags.classList.remove('active');
+        return
+    } else {
+        shopBags.classList.add('active');
+        shopBags.textContent = item;
+    }
+};
 
 // create button - load more
 async function createButtonLoadMore(){
@@ -241,6 +244,7 @@ async function createButtonLoadMore(){
 
 document.addEventListener('DOMContentLoaded', function() {
     defaultFetch(urlDefault);
+    
 });
 
 
