@@ -2,7 +2,7 @@ import "./index.html";
 
 let images = [{
     slide: "slide-1",
-    url:require("./img/bg1.png"),
+    url: require("./img/bg1.png"),
     title: "Black friday sale",
     info1: "up to",
     info2: "60",
@@ -29,7 +29,7 @@ function initSlider(options) {
     options = options || {
         info: false,
         dots: true,
-        autoplay: true,
+        autoplay: false,
     };
 
     let block_slide = document.querySelector(".main-container-block"); 
@@ -60,13 +60,13 @@ function initSlider(options) {
         images.forEach((image, index) => {
 
          let imageDiv = `<div class="main-content image n${index} ${index===0? "active" : ""}" style="background-image:url(${images[index].url})" data-index="${index}">
-         <h1 class="slider-title slide${index}">${images[index].title}</h1>
-         <div class="slider-info slide${index} n${index}">
+            <h1 class="slider-title slide${index}">${images[index].title}</h1>
+            <div class="slider-info slide${index} n${index}">
               <div class="info1"><h2>${images[index].info1}</h2></div> 
               <div class="info2"><h1>${images[index].info2}</h1></div> 
               <div class="info3"><h2>${images[index].info3}</h2></div> 
             </div>
-         </div>
+        </div>
          `
         //  console.log(imageDiv)
          block_slide.innerHTML += imageDiv;
@@ -153,9 +153,6 @@ function initSlider(options) {
             ulConteiner.querySelector(".active_hover_A").classList.remove("active_hover_A");
             ulConteiner.querySelector(".n" + num).classList.add("active_hover_A");
         }
-        
-        // changeInfo(num)
-
     }
    
     function initTitles() {

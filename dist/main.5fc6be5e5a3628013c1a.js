@@ -63,6 +63,20 @@ __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerat
 
 /***/ }),
 
+/***/ "./src/button-media.js":
+/*!*****************************!*\
+  !*** ./src/button-media.js ***!
+  \*****************************/
+/***/ (() => {
+
+const buttonMobile = document.querySelector('.menu-btn-mobile');
+const navBar = document.querySelector('.navbar__nav');
+buttonMobile.addEventListener('click', () => {
+  navBar.classList.toggle('active');
+});
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -76,6 +90,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.html */ "./src/index.html");
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
 /* harmony import */ var _script_slider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./script-slider */ "./src/script-slider.js");
+/* harmony import */ var _search_books_script__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search-books-script */ "./src/search-books-script.js");
+/* harmony import */ var _search_books_script__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_search_books_script__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _button_media__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./button-media */ "./src/button-media.js");
+/* harmony import */ var _button_media__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_button_media__WEBPACK_IMPORTED_MODULE_5__);
+
+
 
 
 
@@ -95,38 +115,36 @@ __webpack_require__.r(__webpack_exports__);
 
 let images = [{
   slide: "slide-1",
-  url: __webpack_require__(/*! ./img/bg1.png */ "./src/img/bg1.png"),
+  url: __webpack_require__(/*! ./img/bg.png */ "./src/img/bg.png"),
+  image: __webpack_require__(/*! ./img/people_image.png */ "./src/img/people_image.png"),
   title: "Black friday sale",
   info1: "up to",
   info2: "60",
-  info3: "%",
-  image: "./img/people_image.png"
+  info3: "%"
 }, {
   slide: "slide-2",
   url: __webpack_require__(/*! ./img/bg2.png */ "./src/img/bg2.png"),
   title: "for entrepreneurs",
   info1: "top",
   info2: "10",
-  info3: "books",
-  image: null
+  info3: "books"
 }, {
   slide: "slide-3",
   url: __webpack_require__(/*! ./img/bg3.png */ "./src/img/bg3.png"),
   title: "Check out",
   info1: "our",
   info2: "cozy books",
-  info3: "selections",
-  image: null
+  info3: "selections"
 }];
 function initSlider(options) {
   if (!images || !images.length) return;
   options = options || {
     info: false,
     dots: true,
-    autoplay: true
+    autoplay: false
   };
-  let block_slide = document.querySelector(".main-container-block-1");
-  let sliderDots = document.querySelector(".content__slider-dots");
+  let block_slide = document.querySelector(".main-container-block");
+  let sliderDots = document.querySelector(".slider-dots");
   // let sliderButton = document.querySelector(".slider__arrow_button");
   // let ulConteiner = document.querySelector(".elementsA");
 
@@ -146,16 +164,17 @@ function initSlider(options) {
   }
   function initImages() {
     images.forEach((image, index) => {
-      let imageDiv = `<div class="content__main-content image n${index} ${index === 0 ? "active" : ""}" style="background-image:url(${images[index].url})" data-index="${index}">
-         <h1 class="content__main-content__slider-title">${images[index].title}</h1>
-         <div class="content__main-content__slider-info_title1">
+      let imageDiv = `<div class="main-content image n${index} ${index === 0 ? "active" : ""}" style="background-image:url(${images[index].url})" data-index="${index}">
+            <h1 class="slider-title slide${index}">${images[index].title}</h1>
+            <div class="slider-info slide${index} n${index}">
               <div class="info1"><h2>${images[index].info1}</h2></div> 
               <div class="info2"><h1>${images[index].info2}</h1></div> 
               <div class="info3"><h2>${images[index].info3}</h2></div> 
             </div>
-         </div>
+            ${images[index].image == undefined ? " " : `<div class="image-people-slide1" style="background-image:url(${images[index].image})`}
+        </div>
          `;
-      console.log(imageDiv);
+      //  console.log(imageDiv)
       block_slide.innerHTML += imageDiv;
     });
   }
@@ -205,10 +224,10 @@ function initSlider(options) {
   }
   function initDots() {
     images.forEach((image, index) => {
-      let dot = `<div class="slider__dots-item n${index} ${index === 0 ? "active" : ""}" data-index="${index}"></div>`;
+      let dot = `<div class="slider-dots-item n${index} ${index === 0 ? "active" : ""}" data-index="${index}"></div>`;
       sliderDots.innerHTML += dot;
     });
-    sliderDots.querySelectorAll(".slider__dots-item").forEach(dot => {
+    sliderDots.querySelectorAll(".slider-dots-item").forEach(dot => {
       dot.addEventListener("click", function () {
         moveSlider(this.dataset.index);
         sliderDots.querySelector(".active").classList.remove("active");
@@ -228,39 +247,41 @@ function initSlider(options) {
       ulConteiner.querySelector(".active_hover_A").classList.remove("active_hover_A");
       ulConteiner.querySelector(".n" + num).classList.add("active_hover_A");
     }
-    changeInfo(num);
   }
   function initTitles() {
     let titleDiv = `<div class="slider__images-title">${images[0].title}</div>`;
     sliderImages.innerHTML += cropTitle(titleDiv, 50);
   }
-  function changeInfo(num) {
-    if (!images[num].city) return;
-    let infoBox = document.querySelector(".box-information");
-    let nameCity = infoBox.querySelector("#nameCity");
-    nameCity.innerHTML = "";
-    nameCity.innerHTML = `
-                <h3>CITY:</h3>
-                <span id="name-city" >${images[num].city}</span>
-            `;
-    if (!images[num].area) return;
-    let area = infoBox.querySelector("#area");
-    area.innerHTML = " ";
-    area.innerHTML = `
-                <h3>apartment area:</h3>
-                <span class="m2"> ${images[num].area} m<sup>2</sup></span>
-            `;
-    if (!images[num].time) return;
-    let time = infoBox.querySelector("#time");
-    time.innerHTML = " ";
-    time.innerHTML = `
-            <h3>Repair time:</h3>
-            <span id="repair-time">${images[num].time}</span>
-            `;
-  }
+
+  // function changeInfo(num) {
+
+  //     let infoBox = document.querySelector(".box-information")
+  //     let nameCity = infoBox.querySelector("#nameCity");
+  //         nameCity.innerHTML = "";
+  //         nameCity.innerHTML = `
+  //             <h3>CITY:</h3>
+  //             <span id="name-city" >${images[num].city}</span>
+  //         `;
+  //     if(!images[num].area) return;
+  //     let area = infoBox.querySelector("#area");
+  //         area.innerHTML = " ";
+  //         area.innerHTML = `
+  //             <h3>apartment area:</h3>
+  //             <span class="m2"> ${images[num].area} m<sup>2</sup></span>
+  //         `;
+  //     if(!images[num].time) return;
+  //     let time = infoBox.querySelector("#time");
+  //         time.innerHTML = " ";
+  //         time.innerHTML = `
+  //         <h3>Repair time:</h3>
+  //         <span id="repair-time">${images[num].time}</span>
+  //         `;
+
+  // }  
+
   function initAutoplay() {
     setInterval(() => {
-      let curNumber = +sliderImages.querySelector(".active").dataset.index;
+      let curNumber = +block_slide.querySelector(".active").dataset.index;
       let nextNumber = curNumber === images.length - 1 ? 0 : curNumber + 1;
       moveSlider(nextNumber);
     }, options.autoplayInterval);
@@ -271,11 +292,253 @@ let sliderOptions = {
   info: true,
   dots: true,
   autoplay: false,
-  autoplayInterval: false,
+  autoplayInterval: 2500,
   navigate: false
 };
 document.addEventListener("DOMContentLoaded", function () {
   initSlider(sliderOptions);
+});
+
+/***/ }),
+
+/***/ "./src/search-books-script.js":
+/*!************************************!*\
+  !*** ./src/search-books-script.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+// create array for generate maturityRating
+let averages = [`<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="#F2C94C">
+<path d="M31.547 12a.848.848 0 00-.677-.577l-9.427-1.376-4.224-8.532a.847.847 0 00-1.516 0l-4.218 8.534-9.427 1.355a.847.847 0 00-.467 1.467l6.823 6.664-1.612 9.375a.847.847 0 001.23.893l8.428-4.434 8.432 4.432a.847.847 0 001.229-.894l-1.615-9.373 6.822-6.665a.845.845 0 00.214-.869z" />
+</svg>`];
+let categoryActive;
+let startIndex = 0;
+let localCart = getDataFromLocalStorage() || {};
+const len = Object.keys(localCart).length;
+console.log('длина ' + len);
+const output = document.querySelector(".output-books");
+const divCategoriesBooksList = document.querySelector(".categories-list");
+const key = 'AIzaSyDmkxWqx4frhzmp0LmcAXduhWusNo2XKC4';
+const urlDefault = new URL(`https://www.googleapis.com/books/v1/volumes?q="subject:Art & Fashion"&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
+const placeHolderImageBooks = {
+  url: __webpack_require__(/*! ./img/image-book-placeholder.png */ "./src/img/image-book-placeholder.png")
+};
+
+// const local = getDataFromLocalStorage();
+// init search category books
+divCategoriesBooksList.querySelectorAll(".menu-item").forEach(item => {
+  item.addEventListener("click", async function (e) {
+    output.innerHTML = "";
+    moveActiveCategory(item.dataset.index);
+    categoryActive = e.target.dataset.name;
+    startIndex = 0;
+    console.log("target" + " " + categoryActive);
+    console.log('active category is ' + categoryActive);
+    await fetchRequest(categoryActive, startIndex, localCart);
+  });
+});
+
+// init move active style category list
+function moveActiveCategory(num) {
+  divCategoriesBooksList.querySelector('.active').classList.remove('active');
+  divCategoriesBooksList.querySelector('.n' + num).classList.add('active');
+}
+;
+
+// init first - default fetch .. and first fetch after reset page
+async function defaultFetch(urlDefault) {
+  const local = getDataFromLocalStorage();
+  categoryActive = 'subject:Art';
+  console.log('default category if ' + categoryActive + ' and start Index is ' + startIndex);
+  let responseDefault = await fetch(urlDefault).then(response => response.json());
+  showBooksGallery(responseDefault, local);
+  loadLocalStorage(len);
+}
+;
+// init functions fetch API 
+async function fetchRequest(value, index, local) {
+  const url = new URL(`https://www.googleapis.com/books/v1/volumes?q=&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
+  url.searchParams.set("q", value);
+  url.searchParams.set("startIndex", index);
+  const responce = await fetch(url);
+  const data = await responce.json();
+  console.log(data.items);
+  // const local = getDataFromLocalStorage();
+  showBooksGallery(data, local);
+  // loadLocalStorage(length);
+}
+;
+
+// init function for button - "load more"
+async function loadMore(value, index) {
+  index = startIndex += 6;
+  await fetchRequest(value, index);
+}
+;
+
+//  init function for parsing responce API
+function showBooksGallery(data, local) {
+  // const dataStorage = getDataFromLocalStorage();
+
+  data.items.forEach(item => {
+    let stringAuthors = `${item.volumeInfo.authors !== undefined ? item.volumeInfo.authors.join(", ") : ' '}`;
+    let description = `${item.volumeInfo.description !== undefined ? item.volumeInfo.description.slice(0, 100) + "..." : " "}`;
+    // init div for one books
+    let card = document.createElement("div");
+    // add class for card 
+    card.classList.add('cardBook');
+    // generate books 
+    if (local) {
+      console.log('data storage is ' + JSON.stringify(local));
+      card.innerHTML = `
+        <div class="containerImageBook">
+            <img class="image-books" src="${item.volumeInfo.imageLinks !== undefined ? item.volumeInfo.imageLinks.thumbnail : placeHolderImageBooks.url}" alt="image-books">
+        </div>
+        <div class="infoBooks">
+            <div class="div-author">
+                <h2 class="author">${stringAuthors}</h2>
+            </div>
+            <div class="div-title">
+                <p class="title-books">${item.volumeInfo.title}</p>
+            </div>
+            ${item.volumeInfo.averageRating === undefined ? " " : `
+                <div class="container-stars">
+                <div class="stars">
+                    ${averages.join('').repeat(item.volumeInfo.averageRating)}
+                </div>
+                <div class="raiting-count">
+                    <p class="raiting">${item.volumeInfo.ratingsCount} review</p>
+                </div>
+                </div>
+                `}
+            <div class="descriptions">
+                <p class="text-descriptions">${description}</p>
+            </div>
+            <div class="price">
+                <p class="money-value">${item.saleInfo.retailPrice !== undefined ? item.saleInfo.retailPrice.currencyCode + " " + item.saleInfo.retailPrice.amount : ""}</p>
+            </div>
+            <div class="button">
+                  <button class="buy-now ${local[item.id] || localCart[item.id] ? 'active' : ''}" data-id="${item.id}">${local[item.id] || localCart[item.id] ? 'in the cart' : 'buy now'}</button>
+            </div>
+        `;
+    } else {
+      card.innerHTML = `
+        <div class="containerImageBook">
+            <img class="image-books" src="${item.volumeInfo.imageLinks !== undefined ? item.volumeInfo.imageLinks.thumbnail : placeHolderImageBooks.url}" alt="image-books">
+        </div>
+        <div class="infoBooks">
+            <div class="div-author">
+                <h2 class="author">${stringAuthors}</h2>
+            </div>
+            <div class="div-title">
+                <p class="title-books">${item.volumeInfo.title}</p>
+            </div>
+            ${item.volumeInfo.averageRating === undefined || item.volumeInfo.ratingCount === undefined ? "" : `
+                <div class="container-stars">
+                <div class="stars">
+                    ${averages.join('').repeat(item.volumeInfo.averageRating)}
+                </div>
+                <div class="raiting-count">
+                    <p class="raiting">${item.volumeInfo.ratingCount} review</p>
+                </div>
+                </div>
+                `}
+            <div class="descriptions">
+                <p class="text-descriptions">${description}</p>
+            </div>
+            <div class="price">
+                <p class="money-value">${item.saleInfo.retailPrice !== undefined ? item.saleInfo.retailPrice.currencyCode + " " + item.saleInfo.retailPrice.amount : ""}</p>
+            </div>
+            <div class="button">
+                  <button class="buy-now" data-id="${item.id}">buy now</button>
+            </div>
+        `;
+    }
+    ;
+
+    // add generated books in card;
+    // add all books
+
+    output.appendChild(card);
+    createButtonLoadMore();
+  });
+  const button = document.querySelectorAll('.buy-now');
+  button.forEach(item => {
+    item.addEventListener('click', e => {
+      let currentButton = e.target;
+      let currentDataId = e.target.dataset.id;
+      console.log('current id button is ' + currentDataId);
+      click(currentButton, currentDataId);
+    });
+  });
+}
+;
+function addItemShopBag(bookId, localCart) {
+  localCart[bookId] = true;
+  return localCart;
+}
+;
+function deleteItemShopBag(bookId, localCart) {
+  delete localCart[bookId];
+  return localCart;
+}
+;
+function getDataFromLocalStorage() {
+  const resp = localStorage.getItem('localCart');
+  console.log('responce from local is' + resp);
+  const data = JSON.parse(resp);
+  return data;
+}
+;
+function click(item, id) {
+  if (localCart[id] === undefined) {
+    addItemShopBag(id, localCart);
+    console.log('local Cart Added items and Cart is : ' + id);
+    item.textContent = "in the cart";
+    item.classList.add('active');
+  } else {
+    deleteItemShopBag(id, localCart);
+    console.log('local Cart delete items and Cart is : ' + id);
+    item.textContent = "buy now";
+    item.classList.remove('active');
+  }
+  localStorage.setItem(`localCart`, JSON.stringify(localCart));
+  const len = Object.keys(localCart).length;
+  loadLocalStorage(len);
+  console.log('loaded of elements books of localStorage is:' + len);
+}
+function loadLocalStorage(item) {
+  const shopBags = document.querySelector('.bags-items');
+  if (item === 0) {
+    shopBags.classList.remove('active');
+    return;
+  } else {
+    shopBags.classList.add('active');
+    shopBags.textContent = item;
+  }
+}
+;
+
+// create button - load more
+async function createButtonLoadMore() {
+  let divMoreButton = document.createElement("div");
+  divMoreButton.classList.add('load');
+  let buttonMoreLoad = document.createElement('button');
+  buttonMoreLoad.classList.add('load-more');
+  buttonMoreLoad.innerHTML = 'load more';
+  divMoreButton.appendChild(buttonMoreLoad);
+  output.appendChild(divMoreButton);
+
+  // add event for button
+  divMoreButton.addEventListener('click', () => {
+    output.innerHTML = "";
+    loadMore(categoryActive, startIndex);
+    console.log('active category:' + categoryActive, 'startIndex:' + startIndex);
+  });
+}
+;
+document.addEventListener('DOMContentLoaded', function () {
+  defaultFetch(urlDefault);
 });
 
 /***/ }),
@@ -9360,7 +9623,7 @@ var ___HTML_LOADER_REPLACEMENT_0___ = _node_modules_html_loader_dist_runtime_get
 var ___HTML_LOADER_REPLACEMENT_1___ = _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0___default()(___HTML_LOADER_IMPORT_1___);
 var ___HTML_LOADER_REPLACEMENT_2___ = _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0___default()(___HTML_LOADER_IMPORT_2___);
 var ___HTML_LOADER_REPLACEMENT_3___ = _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0___default()(___HTML_LOADER_IMPORT_3___);
-var code = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n  <head>\r\n    <meta charset=\"UTF-8\" />\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n    <title>Document</title>\r\n  </head>\r\n  <body>\r\n    <header class=\"header\">\r\n      <nav class=\"header__navbar\">\r\n        <div class=\"header__navbar__navbar__title-logo\">\r\n          <p class=\"logo\">Bookshop</p>\r\n        </div>\r\n        <div class=\"navbar__nav\">\r\n          <a class=\"nav__item-link nav__item-link_active\" href=\"#\">Books</a>\r\n          <a class=\"nav__item-link\" href=\"#\">Audiobooks</a>\r\n          <a class=\"nav__item-link\" href=\"#\">Stationery &amp gifts</a>\r\n          <a class=\"nav__item-link\" href=\"#\">blog</a>\r\n        </div>\r\n        <div class=\"icon-navbar\">\r\n          <img\r\n            class=\"icon-navbar__icon-img\"\r\n            src=\"" + ___HTML_LOADER_REPLACEMENT_0___ + "\"\r\n            alt=\"icon-user\"\r\n          />\r\n          <img\r\n            class=\"icon-navbar__icon-img\"\r\n            src=\"" + ___HTML_LOADER_REPLACEMENT_1___ + "\"\r\n            alt=\"icon-search\"\r\n          />\r\n          <img\r\n            class=\"icon-navbar__icon-img\"\r\n            src=\"" + ___HTML_LOADER_REPLACEMENT_2___ + "\"\r\n            alt=\"icon-shop\"\r\n          />\r\n        </div>\r\n      </nav>\r\n    </header>\r\n    <main>\r\n      <div class=\"wrapper\">\r\n        <div class=\"content__miniCard_second\">\r\n          <p class=\"title__card\">\r\n            top<br />\r\n            100<br />Books<br />2022\r\n          </p>\r\n          <img class=\"arrow-right\" src=\"" + ___HTML_LOADER_REPLACEMENT_3___ + "\" alt=\"arrow-right\" />\r\n        </div>\r\n      </div>\r\n      <div class=\"content\">\r\n        <div class=\"content__miniCards\">\r\n          <div class=\"content__miniCard_first\">\r\n            <p class=\"title__card\">\r\n              Change<br />\r\n              old book<br />on new\r\n            </p>\r\n            <img class=\"arrow-right\" src=\"" + ___HTML_LOADER_REPLACEMENT_3___ + "\" alt=\"arrow-right\" />\r\n          </div>\r\n        </div>\r\n      <div class=\"main-container-block-1\">\r\n          \r\n      </div>\r\n      <div class=\"content__slider-dots\"></div>\r\n      <footer></footer>\r\n    </main>\r\n  </body>\r\n</html>\r\n";
+var code = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n  <head>\r\n    <meta charset=\"UTF-8\" />\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n    <title>Document</title>\r\n  </head>\r\n  <body>\r\n    <header class=\"header\">\r\n      <nav class=\"header__navbar\">\r\n        <div class=\"menu-btn-mobile\">\r\n          <span></span>\r\n          <span></span>\r\n          <span></span>\r\n        </div>\r\n        <div class=\"header__navbar__navbar__title-logo\">\r\n          <p class=\"logo\">Bookshop</p>\r\n        </div>\r\n        <div class=\"navbar__nav\">\r\n          <a class=\"nav__item-link nav__item-link_active\" href=\"#\">Books</a>\r\n          <a class=\"nav__item-link\" href=\"#\">Audiobooks</a>\r\n          <a class=\"nav__item-link\" href=\"#\">Stationery &amp gifts</a>\r\n          <a class=\"nav__item-link\" href=\"#\">blog</a>\r\n        </div>\r\n        <div class=\"icon-navbar\">\r\n          <div class=\"icon-navbar__icon-img\">\r\n            <img\r\n            class=\"icon-navbar__icon-img\"\r\n            src=\"" + ___HTML_LOADER_REPLACEMENT_0___ + "\"\r\n            alt=\"icon-user\"\r\n          />\r\n          </div>\r\n          <div class=\"icon-navbar__icon-img\">\r\n            <img\r\n            class=\"icon-navbar__icon-img\"\r\n            src=\"" + ___HTML_LOADER_REPLACEMENT_1___ + "\"\r\n            alt=\"icon-search\"\r\n          />\r\n          </div>\r\n          <div class=\"icon-navbar__icon-img\">\r\n            <img class=\"icon-navbar__icon-img icon-shop-bag\"\r\n            src=\"" + ___HTML_LOADER_REPLACEMENT_2___ + "\"\r\n            alt=\"icon-shop\"/>\r\n          <p class=\"shop-bag bags-items\">0</p>\r\n          </div>\r\n        </div>\r\n      </nav>\r\n    </header>\r\n    <main>\r\n      <div class=\"wrapper\">\r\n        <div class=\"miniCard_second\">\r\n          <a href=\"\" class=\"title__card\" title=\"card-Book\">\r\n            top<br />\r\n            100<br />Books<br />2022\r\n          </a>\r\n          <img class=\"arrow-right\" src=\"" + ___HTML_LOADER_REPLACEMENT_3___ + "\" alt=\"arrow-right\" />\r\n        </div>\r\n      </div>\r\n      <!-- Slider content START -->\r\n      <div class=\"content-1\">\r\n        <div class=\"miniCards\">\r\n          <div class=\"miniCard-first\">\r\n            <a href=\"\" class=\"title__card\" title=\"card-books\">\r\n              Change<br />\r\n              old book<br />on new\r\n            </a>\r\n            <img class=\"arrow-right\" src=\"" + ___HTML_LOADER_REPLACEMENT_3___ + "\" alt=\"arrow-right\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"main-container-block\"></div>\r\n        <div class=\"slider-dots\"></div>\r\n      </div>\r\n      <!-- Slider content END -->\r\n      <div class=\"content-2\">\r\n        <div class=\"div-back-ground-list\"></div>\r\n        <div class=\"container-info\">\r\n          <!--Category books start-->\r\n          <div class=\"categories-books\">\r\n            <ul class=\"categories-list\">\r\n              <li class=\"menu-item active n0\" data-index=\"0\" data-name=\"subject:Art\">Art &amp; Fashion</li>\r\n              <li class=\"menu-item n1\" data-index=\"1\" data-name=\"subject:Architecture\">Architecture</li>\r\n              <li class=\"menu-item n2\" data-index=\"2\" data-name=\"subject:Biography &amp; Autobiography\">Biography</li>\r\n              <li class=\"menu-item n3\" data-index=\"3\" data-name=\"subject:Business\">Business</li>\r\n              <li class=\"menu-item n4\" data-index=\"4\" data-name=\"subject:Crafts &amp; Hobbies\">Crafts &amp; Hobbies</li>\r\n              <li class=\"menu-item n5\" data-index=\"5\" data-name=\"subject:Drama\">Drama</li>\r\n              <li class=\"menu-item n6\" data-index=\"6\" data-name=\"subject:Fiction\">Fiction</li>\r\n              <li class=\"menu-item n7\" data-index=\"7\" data-name=\"subject:Cooking\">Food &amp; Drink</li>\r\n              <li class=\"menu-item n8\" data-index=\"8\" data-name=\"subject:Health &amp; Fitness\">Health &amp; Wellbeing</li>\r\n              <li class=\"menu-item n9\" data-index=\"9\" data-name=\"subject:History\">History &amp; Politics</li>\r\n              <li class=\"menu-item n10\" data-index=\"10\" data-name=\"subject:Humor\">Humor</li>\r\n              <li class=\"menu-item n11\" data-index=\"11\" data-name=\"subject:Poetry\">Poetry</li>\r\n              <li class=\"menu-item n12\" data-index=\"12\" data-name=\"subject:Psychology\">Psychology</li>\r\n              <li class=\"menu-item n13\" data-index=\"13\" data-name=\"subject:Science\">Science</li>\r\n              <li class=\"menu-item n14\" data-index=\"14\" data-name=\"subject:Technology\">Technology</li>\r\n              <li class=\"menu-item n15\" data-index=\"15\" data-name=\"subject:Travel\">Travel &amp; Maps</li>\r\n            </ul>\r\n          </div>\r\n          <!--Category books end-->\r\n\r\n          <!--Books gallery start-->\r\n          <div class=\"output-books\"></div>\r\n          <!--Books gallery end-->\r\n        </div>\r\n      </div>\r\n      <footer></footer>\r\n    </main>\r\n  </body>\r\n</html>\r\n";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -10197,14 +10460,14 @@ module.exports = __webpack_require__.p + "assets/arrow.png";
 
 /***/ }),
 
-/***/ "./src/img/bg1.png":
-/*!*************************!*\
-  !*** ./src/img/bg1.png ***!
-  \*************************/
+/***/ "./src/img/bg.png":
+/*!************************!*\
+  !*** ./src/img/bg.png ***!
+  \************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-module.exports = __webpack_require__.p + "assets/bg1.png";
+module.exports = __webpack_require__.p + "assets/bg.png";
 
 /***/ }),
 
@@ -10260,6 +10523,28 @@ module.exports = __webpack_require__.p + "assets/icon-shop bag.png";
 
 "use strict";
 module.exports = __webpack_require__.p + "assets/icon-user.png";
+
+/***/ }),
+
+/***/ "./src/img/image-book-placeholder.png":
+/*!********************************************!*\
+  !*** ./src/img/image-book-placeholder.png ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "assets/image-book-placeholder.png";
+
+/***/ }),
+
+/***/ "./src/img/people_image.png":
+/*!**********************************!*\
+  !*** ./src/img/people_image.png ***!
+  \**********************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "assets/people_image.png";
 
 /***/ })
 
@@ -10401,4 +10686,4 @@ module.exports = __webpack_require__.p + "assets/icon-user.png";
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=main.f717494accec61f11edd.js.map
+//# sourceMappingURL=main.5fc6be5e5a3628013c1a.js.map

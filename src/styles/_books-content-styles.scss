@@ -15,27 +15,26 @@
 };
 
 .content-2 {
+    position: relative;
     display: flex;
-    margin-top: 120px;
-    max-width: 100%;
-
+    max-width: 1440px;
+    margin: 0 auto;
+    margin-top: 134px;
+    
     .div-back-ground-list {
         position: absolute;
         left: 0;
-        width: calc(100vw - (100% - 30vw));
+        width: 416px;
         height: 710px;
         background-color: $colorBgDot;
-        
     }
     .container-info {
         position: relative;
         margin: 45px auto;
-        width: 100%;
+        width: 1440px;
         max-width: 1120px;
         display: flex;
         justify-content: space-between;
-        
-        
     }
     .categories-books {
         position: absolute;
@@ -90,8 +89,8 @@
     }
 
     .load {
-        position: absolute;
-        margin: 1245px auto;
+        position: relative;
+        margin: 11px auto;
         padding-bottom: 91px;
         justify-content: center;
         align-items: center;
@@ -107,6 +106,7 @@
             &:hover {
                 color:$greyText;
                 border: 1px solid #EEEDF5;
+                cursor: pointer;
             }
             &:active {
                 scale: 1.05;
@@ -115,21 +115,20 @@
         }
     }
 
-    .output-books{
+    .output-books {
         position: absolute;
         right: 0;
         width: 924px;
         height: max-content;
         display: grid;
         grid-template-columns: repeat(auto-fit,minmax(424px, 1fr));
-        gap: 75px;
-
+        grid-column-gap: 75px;
+        grid-row-gap: 96px;
         
         .cardBook {
             display: flex;
             flex-direction: row;
             height: max-content;
-            margin-bottom: 10px;
             & .image-books {
                 width: 212px;
                 height: 327px;
@@ -143,8 +142,9 @@
             flex-direction: column;
             width: max-content;
             max-width: 176px;
-            margin: auto auto;
+            margin: auto 0;
             margin-top: 15px;
+            margin-left: 36px;
             
             .div-author{
                 position: relative;
@@ -166,13 +166,14 @@
                 position: relative;
                 left: 0;
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
                 margin-top: 5px;
                 width: 176px;
                 max-width: 176px;
+
                 .stars {
                     width: max-content;
-                    margin-right: 5px;
+                    margin-right: 25px;
                 }
 
                 .raiting-count {
@@ -195,7 +196,7 @@
                 .text-descriptions {
                     height: max-content;
                     overflow: hidden;
-                    word-wrap: break-word;
+                    word-break: break-all;
                     @include title(10px, normal, 400, $font2, 14px, capitalize, $greyText, 0 ,0 ,0);
                 }
             }
@@ -227,10 +228,16 @@
                     &:hover {
                         color:$greyText;
                         border: 1px solid #EEEDF5;
+                        cursor: pointer;
                     }
                     &.active {
                         color:$greyText;
                         border: 1px solid #EEEDF5;
+                    }
+
+                    &:active {
+                        border: 1px solid #4C3DB2;
+                        scale: 1.05;
                     }
                 }
             }

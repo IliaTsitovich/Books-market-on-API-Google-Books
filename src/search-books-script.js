@@ -1,5 +1,5 @@
 // create array for generate maturityRating
-let averages = [`<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="#F2C94C">
+let averages = [`<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="#F2C94C">
 <path d="M31.547 12a.848.848 0 00-.677-.577l-9.427-1.376-4.224-8.532a.847.847 0 00-1.516 0l-4.218 8.534-9.427 1.355a.847.847 0 00-.467 1.467l6.823 6.664-1.612 9.375a.847.847 0 001.23.893l8.428-4.434 8.432 4.432a.847.847 0 001.229-.894l-1.615-9.373 6.822-6.665a.845.845 0 00.214-.869z" />
 </svg>`];
 
@@ -15,7 +15,6 @@ const output = document.querySelector(".output-books");
 const divCategoriesBooksList = document.querySelector(".categories-list");
 const key = 'AIzaSyDmkxWqx4frhzmp0LmcAXduhWusNo2XKC4';
 const urlDefault = new URL(`https://www.googleapis.com/books/v1/volumes?q="subject:Art & Fashion"&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
-const url = new URL(`https://www.googleapis.com/books/v1/volumes?q="subject:Health & Fitness"&key=${key}&printType=books&startIndex=0&maxResults=6&langRestrict=en`);
 const placeHolderImageBooks = {
    url:require("./img/image-book-placeholder.png"),
 };
@@ -32,6 +31,7 @@ item.addEventListener("click", async function(e){
     console.log("target" + " " + categoryActive)
     console.log('active category is ' + categoryActive);
     await fetchRequest(categoryActive,startIndex,localCart);
+    
     });
 });
 
@@ -51,6 +51,7 @@ async function defaultFetch(urlDefault){
             
     showBooksGallery(responseDefault, local);
     loadLocalStorage(len);
+    createButtonLoadMore();
 };
 // init functions fetch API 
 async function fetchRequest(value, index, local) {
@@ -63,6 +64,7 @@ async function fetchRequest(value, index, local) {
     // const local = getDataFromLocalStorage();
     showBooksGallery(data, local);
     // loadLocalStorage(length);
+    createButtonLoadMore();
 };
 
 // init function for button - "load more"
@@ -71,7 +73,7 @@ async function loadMore(value, index) {
     await fetchRequest(value, index);
 };
 
-// получаем данные из localStorage
+
 //  init function for parsing responce API
 function showBooksGallery(data, local) {
     
@@ -80,7 +82,7 @@ function showBooksGallery(data, local) {
     data.items.forEach(item => {
         
         let stringAuthors = `${item.volumeInfo.authors !== undefined? item.volumeInfo.authors.join(", ") : ' '}`;
-        let description = `${item.volumeInfo.description !== undefined? item.volumeInfo.description.slice(0,95) + "..." : " "}`; 
+        let description = `${item.volumeInfo.description !== undefined? item.volumeInfo.description.slice(0,100) + "..." : " "}`; 
         // init div for one books
         let card = document.createElement("div");
         // add class for card 
@@ -105,7 +107,7 @@ function showBooksGallery(data, local) {
                     ${averages.join('').repeat(item.volumeInfo.averageRating)}
                 </div>
                 <div class="raiting-count">
-                    <p class="raiting">${item.volumeInfo.ratingCount} review</p>
+                    <p class="raiting">${item.volumeInfo.ratingsCount} review</p>
                 </div>
                 </div>
                 `
@@ -162,7 +164,7 @@ function showBooksGallery(data, local) {
     // add all books
     
     output.appendChild(card);
-    createButtonLoadMore();
+    
     })
 
     const button = document.querySelectorAll('.buy-now');

@@ -26,8 +26,10 @@
 
 .content-1 {
   position: relative;
+  width: 100%;
+  height: auto;
   max-width: 1120px;
-  margin: 0 auto;
+  margin: 116px auto;
 
   .title__card {
     @include title(18px, normal, 700, $font1, 22px, uppercase, $blackActiveText, null, 0, 0);
@@ -37,10 +39,10 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    z-index: 10;
-
+    
     // First mini-card
     .miniCard-first {
+      z-index: 5;
       background-color: $colorCardsOne;
       width: 149px;
       height: 204px;
@@ -50,7 +52,7 @@
       box-shadow: 0px 24px 36px rgba(53, 49, 84, 0.28);
       &:hover {
         cursor: pointer;
-        scale: 1.1;
+        scale: 1.05;
       }
 
       .title__card {
@@ -70,18 +72,28 @@
 
   .main-container-block {
     width: 100%;
-    height: 702px;
+    height: 100vw;
+    max-width: 1120px;
+    max-height: 702px;
     position: relative;
-  
+
+    .image-people-slide1{
+      width: 100%;
+      height: 100vw;
+      position: relative;
+    }
+    
     // styles for slide #1
     .main-content.image.n0 {
       position: absolute;
       display: flex;
       flex-direction: column;
-      background-size: cover; 
-      width: 100%;
-      height: 702px;
+      background-size: cover;
+      width: 100vw;
+      height: 100vw;
+      max-width: 1120px;
       max-height: 702px;
+      // max-height: 702px;
       opacity: 0;
       transition: opacity 800ms ease;
   
@@ -90,15 +102,17 @@
       }
     
       & .slider-title.slide0 {
-            @include title(25px, normal, 600, $font1, 30px, uppercase,$blackActiveText,center,0,69px);
+            @include title(1.6rem, normal, 600, $font1, 30px, uppercase,$blackActiveText,center,0, 69px);
         }
     
         .slider-info.slide0 {
           display: flex;
           flex-direction: row;
-          position: absolute;
-          top: 104px;
-          left: 308px;
+          position: relative;
+          justify-content: center;
+          margin-top: -64px;
+          top: 0;
+          
     
           .info1, .info3 {
             & > h2, h2:last-child {
@@ -121,9 +135,10 @@
       position: absolute;
       display: flex;
       flex-direction: row;
-      background-size: cover; 
-      width: 100%;
-      height: 702px;
+      background-size: cover;
+      width: 100vw;
+      height: 100vw;
+      max-width: 1120px;
       max-height: 702px;
       opacity: 0;
       transition: opacity 800ms ease;
@@ -133,64 +148,64 @@
       }
     
       & .slider-title.slide1 {
-        position: absolute;
+        position: relative;
+        max-height: 50px;
         z-index: 11;
         top: 250px;
         left: 730px;
-  
             @include title(25px, normal, 600, $font1, 30px, uppercase,$blackActiveText,center,0,0);
         }
     
-        .slider-info.slide1 {
-          display: flex;
-          position: absolute;
-          z-index: 11;
-          top: 73px;
-          left: 103px;
+      .slider-info.slide1 {
+        display: flex;
+        position: absolute;
+        z-index: 11;
+        top: 73px;
+        left: 103px;
     
-          .info1 {
-            & h2 { @include title(60px, normal, 700, $font1, 73px, lowercase, $white, null, 0, 0);
-              text-shadow: $PurpleShadowFirstWordInfo;
-            }
-          } 
-          .info3 {
-            position: absolute;
-            top: 45px;
-            left: 196px;
-            & > h2 {
+       .info1 {
+          & h2 { @include title(60px, normal, 700, $font1, 73px, lowercase, $white, null, 0, 0);
+            text-shadow: $PurpleShadowFirstWordInfo;
+          }
+        } 
+        .info3 {
+          position: absolute;
+          top: 45px;
+          left: 196px;
+             & > h2 {
               @include title(50px, normal, 700, $font1, 73px, lowercase, $white, null, 0, 0);
               text-shadow: $PurpleShadowFirstWordInfo;
             }
   
-            &> h2:last-child {
-              margin-top: 98px;
-            }
-          }
-          
-          .info2 {
-            position: absolute;
-            top: 20px;
-  
-            & > h1 {
-              @include title(160px, normal, 900, $font1, 222px, uppercase, $white, null, 0, 0);
-              text-shadow: $PurpleShadowSecondWordInfo;
-          }
+          &> h2:last-child {
+            margin-top: 98px;
           }
         }
+          
+        .info2 {
+          position: absolute;
+          top: 20px;
+
+          & > h1 {
+            @include title(160px, normal, 900, $font1, 222px, uppercase, $white, null, 0, 0);
+            text-shadow: $PurpleShadowSecondWordInfo;
+          }
+        }
+      }
     }
+
     // styles for slide #3
     .main-content.image.n2 {
       position: absolute;
       display: flex;
       flex-direction: column;
-  
       background-size: cover; 
       width: 100%;
       height: 702px;
       max-height: 702px;
       opacity: 0;
       transition: opacity 800ms ease;
-  
+      
       &.active {
         opacity: 1;
       }
@@ -200,22 +215,21 @@
         z-index: 11;
             @include title(45px, normal, 600, $font1, 55px, uppercase,$blackActiveText,center,148px auto 0 auto,0);
       }
-      
     
-        .slider-info.slide2 {
-          display: flex;
-          flex-direction: column;
-          position: absolute;
-          top: 212px;
-          left: 233px;
+      .slider-info.slide2 {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 212px;
+        left: 233px;
     
-          .info1, .info2, .info3 {
-            &  h1, h2 {
-              @include title(90px, normal, 900, $font1, 110px, uppercase, $white, center, 0, 0);
-              text-shadow: $RedShadowFirstWordInfo;
-            }
+        .info1, .info2, .info3 {
+          &  h1, h2 {
+            @include title(90px, normal, 900, $font1, 110px, uppercase, $white, center, 0, 0);
+            text-shadow: $RedShadowFirstWordInfo;
           }
         }
+      }
     }
   }
 
@@ -257,12 +271,12 @@
     height: 273px;
     position: absolute;
     top: 362px;
-    right: 0;
+    right: 4px;
     z-index: 11;
     box-shadow: 0px 24px 36px rgba(53, 49, 84, 0.28);
     &:hover {
       cursor: pointer;
-      scale: 1.1;
+      scale: 1.05;
     }
     .title__card {
       text-decoration: none;
