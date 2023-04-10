@@ -15,7 +15,7 @@ You will also see any lint errors in the console.
 
 ### `npm run build-dev`
 
-Builds the app for develop to the `dist` folder.\
+Builds the app for development mode to the `dist` folder.\
 It correctly bundles in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
@@ -23,7 +23,7 @@ Your app is ready to be deployed!
 
 
 ### `npm run build-prod`
-Builds the app for production to the `dist` folder.\
+Builds the app for production mode to the `dist` folder.\
 It correctly bundles in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
