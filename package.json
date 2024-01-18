@@ -1,11 +1,12 @@
 {
+  "homepage": "https://iliatsitovich.github.io/Books-market-on-API-Google-Books",
   "name": "books-market-on-api-google-books",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d dist",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve",
     "build-dev": "webpack",
@@ -22,7 +23,6 @@
   "bugs": {
     "url": "https://github.com/IliaTsitovich/Books-market-on-API-Google-Books/issues"
   },
-  "homepage": "https://github.com/IliaTsitovich/Books-market-on-API-Google-Books/",
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
