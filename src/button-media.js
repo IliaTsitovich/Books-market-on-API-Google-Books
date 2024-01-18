@@ -8,11 +8,9 @@ const backgroundButtonCategory = document.querySelector('.div-back-ground-list')
 
 buttonMobileHeader.addEventListener('click', ()=> {
     navBar.classList.toggle('active');
-
 })
 
 buttonMobileCategory.addEventListener('click', ()=> {
     mobileCategory.classList.toggle('active');
     backgroundButtonCategory.classList.toggle('active');
-
 })

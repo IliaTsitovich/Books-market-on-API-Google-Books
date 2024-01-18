@@ -93,26 +93,22 @@
             height: 200px;
             background-color: #ffffffe5;
             margin: 5px 0;
+
             .nav__item-link {
                 width: max-content;
                 margin: 0;
                 margin-bottom: 25px;
                 @include font(5vw, normal, 900, $font1, 2.1vw, uppercase, $blackActiveText);
             }
-        & a {
-          text-decoration: none;
-          &:hover {
-            font-weight: 900;
-            color: $greyText;
-            cursor: pointer;
-          }
-        }
-    
-        }
 
-
+            & a {
+            text-decoration: none;
+            &:hover {
+                font-weight: 900;
+                color: $greyText;
+                cursor: pointer;
+                }
+            }
+        }
     }
-
-   
-    
 }

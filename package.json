@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/IliaTsitovich/Books-market-on-API-Google-Books/issues"
   },
-  "homepage": "https://github.com/IliaTsitovich/Books-market-on-API-Google-Books#readme",
+  "homepage": "https://github.com/IliaTsitovich/Books-market-on-API-Google-Books/",
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
